@@ -1,0 +1,23 @@
+#ZDR
+elif(unidade=='ZDR'):
+    cgax, pm = wradlib.vis.plot_ppi(dados, r=alcance, az=azi, fig=figura,
+                                    proj=wradlib.georef.epsg_to_osr(4326),
+                                    site=(float(lon_radar),float(lat_radar),float(alt_radar)),
+                                    elev=float(elevacao),
+                                    cmap=matplotlib.colors.ListedColormap(
+                                        colors=[(0,0,0,0),(0.2,0.2,0.2,1),(0.4,0.4,0.4,1),(0.6,0.6,0.6,1),(0.8,0.8,0.8,1),(0,0,0.75,1),
+                                                (0,0.6,0.75,1),(0,1,0.8,1),(0,0.8,0.3,1),(1,1,0,1),(1,0.6,0,1),
+                                                (0.85,0,0,1),(0.65,0,0,1),(1,0.5,0.7,1),(0.5,0,0.5,1),(0.7,0,0.7,1)]),
+                                    norm=matplotlib.colors.BoundaryNorm(boundaries=[-7.9,-4,-2,-0.5,0,0.25,0.5,1,1.5,2,2.5,3,4,5,6,7.9],
+                                                                        ncolors=16, extend='neither'))
+
+    titulo = "{0} {1}    {2}    {3}    PPI {4}°\nLat {5}°    Lon {6}°".format(
+        tiposensor, nomesensor, data, hora, elevacao, lat_radar, lon_radar)
+
+    t = matplotlib.pyplot.title(label=titulo, fontsize=12, pad=20, loc='center')
+    t.set_y(1.1)
+    # cgax = os eixos curvilineos (grade r-theta); pm = o resultado da funcao de plot
+    caax = cgax  # .parasites[0]  # transformar eixos polares em cartesianos
+    eixoescala = inset_axes(caax, loc='right', width="3%", height="100%", borderpad=-4.5)
+    cbar = matplotlib.pyplot.gcf().colorbar(pm, cax=eixoescala, orientation="vertical", ticks=list(range(-64,0,10))+[-2,0,2]+list(range(4,65,10)))
+    cbar.set_label("Velocidade Radial (m/s)")
